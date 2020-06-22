@@ -1,0 +1,121 @@
+<?php
+	/**
+		* Template name: Boutiques
+	 */
+
+get_header(); ?>
+
+	<section id="primary" class="content-area col-md-12">
+		<main id="main" class="site-main" role="main">
+			<header class="entry-header">
+				<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+			</header>
+
+			<div class="avrbreadcrumb">
+				<?php 
+				   if(function_exists('get_hansel_and_gretel_breadcrumbs')): 
+					  echo get_hansel_and_gretel_breadcrumbs();
+				   endif;
+				?>
+			</div>
+			
+			<div class="buyitems">
+				<form  method="post" action="<?php bloginfo('url');?>/articleavendre/">
+					<?php  $taxonomies = get_object_taxonomies('articleavendre');
+					    foreach($taxonomies as $tax){
+					        echo buildSelect($tax);
+					    }
+					?>
+					<input type="submit"/>
+				</form>
+			</div>
+			
+			<div class="zonewidgettocenter">
+				<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('boutique-widget') ) : endif; ?>
+			</div>
+			
+			<?php
+				if (get_query_var('paged')) {
+				    $paged = get_query_var('paged');
+				} elseif (get_query_var('page')) { // 'page' is used instead of 'paged' on Static Front Page
+				    $paged = get_query_var('page');
+				} else {
+				    $paged = 1;
+				}
+				$args = array(
+				'post_type' => 'articleavendre',
+				'numberposts' => -1,
+				'post_status' => null,
+				'post_parent' => null,
+				'posts_per_page' => 3,
+				'paged' => $paged  //very important
+				);
+				$custom_query = new WP_Query($args);
+				if ($custom_query->have_posts()) :
+				     while ($custom_query->have_posts()) : $custom_query->the_post();
+			?>
+			
+				<div class="grid-item2">
+					<figure class="figitem">
+						<?php the_post_thumbnail('large'); ?>
+					</figure>
+				<div class="globalfields">
+								
+							<a href="<?php echo get_permalink($post->ID);?>" >
+								<h1>
+									<a href="<?php the_permalink() ?>"><?php echo wp_trim_words( get_the_title(), 10 ); ?></a>
+								</h1>
+							</a>
+							
+							<ul class="ntfields">
+								<li>
+									<?php the_terms( $post->ID, 'produit', 'produit : ' ); ?>
+								</li>
+								<li>
+									<?php the_terms( $post->ID, 'matiere', 'matiere : ' ); ?>
+								</li>
+								<li>
+									<?php the_terms( $post->ID, 'taille', 'taille : ' ); ?>
+								</li>
+								<li>
+									<?php the_terms( $post->ID, 'prix', 'prix : ' ); ?>
+								</li>
+							</ul>
+
+							<p class="deletereadmore">
+								<?php echo excerpt(40); ?><a href="<?php echo get_permalink($post->ID);?>" ><strong>lire la suite</strong></a>
+							</p>
+							<br>
+
+					</div>
+				</div>
+				
+			<?php  endwhile;  ?>
+
+    <?php if ($custom_query->max_num_pages > 1) :
+          $orig_query = $wp_query;
+          $wp_query = $custom_query;
+          ?>
+          <nav class="prev-next-posts">
+              <?php
+              if (function_exists('wp_bootstrap_pagination'))
+                  wp_bootstrap_pagination();
+              ?>
+          </nav>
+          <?php $wp_query = $orig_query; ?>
+      <?php endif;
+          wp_reset_postdata();
+      else:
+          echo '<p>' . __('Sorry, no posts matched your criteria.') . '</p>'; //ends pagination
+      endif;  //ends loop
+?>
+
+		</ul>
+
+
+
+		</main><!-- #main -->
+	</section><!-- #primary -->
+
+<?php
+get_footer();
