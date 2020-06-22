@@ -1,0 +1,88 @@
+<?php
+	/**
+		* Template name: Gymnastique Artistique Féminin
+	 */
+
+get_header(); ?>
+
+
+<section id="primary" class="content-area col-md-12">
+	<main id="main" class="site-main" role="main">
+
+	<header class="entry-header">
+		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+	</header>
+	
+	<div class="avrbreadcrumb">
+		<?php 
+		   if(function_exists('get_hansel_and_gretel_breadcrumbs')): 
+			  echo get_hansel_and_gretel_breadcrumbs();
+		   endif;
+		?>
+	</div>
+
+		<div class="bandeauclass">
+			<?php $babygym = array(201); ?>
+			<?php   $babyclass = new WP_Query( array( 'post_type' => 'post', 'post__in'  => $babygym ) ); ?>
+			<?php   while ($babyclass->have_posts()) : $babyclass->the_post(); ?>
+
+			<div class="middlebandeau">
+				<?php echo the_post_thumbnail(); ?>
+			</div>
+				<?php   endwhile; wp_reset_postdata(); ?>
+	</div>
+		
+		
+	<div class="optionanimate">
+						<?php $firstoption = get_option( 'gymartfem' ); ?>
+						
+						<?php if(! empty( $firstoption) ) : ?><div class="animpart"><strong>IMPORTANT:</strong></div><div class="onmarquee"><span class="submarquee"><?php echo $firstoption; ?></span></div><?php endif; ?>
+						
+					</div>
+		
+	
+	<div class="introclass">
+			<?php $introgym = array(191); ?>
+			<?php   $introclass = new WP_Query( array( 'post_type' => 'post', 'post__in'  => $introgym ) ); ?>
+			<?php   while ($introclass->have_posts()) : $introclass->the_post(); ?>
+
+			<div class="middlebandeau">
+				<p class="paragym"><?php the_content();?></p>
+			</div>
+				<?php   endwhile; wp_reset_postdata(); ?>
+	</div>
+
+	<div id="customtab">
+		<ul class="nav nav-tabs" role="tablist">
+			<?php $myarray = array(193, 195, 197, 199); ?>
+			<?php $loop = new WP_Query( array( 'post_type' => 'post', 'post__in'  => $myarray ) ); ?>
+			<?php 
+			$counter = 0;
+			while ( $loop->have_posts() ) : $loop->the_post(); 
+				$counter++;
+			?>
+				<li role="presentation" class="titlepresent post-<?php the_ID(); ?> <?=($counter == 1) ? 'active' : ''?>"><a href="#post-<?php the_ID(); ?>" aria-controls="home" role="tab" data-toggle="tab"><h1><?php the_title();?></h1></a></li>
+			<?php endwhile; wp_reset_query(); ?>
+		</ul>
+		<div class="tab-content">
+			<?php
+			$counter = 0;
+			$myarray = array(193, 195, 197, 199); 
+			$loop = new WP_Query( array( 'post_type' => 'post', 'post__in'  => $myarray ) ); 
+			while ( $loop->have_posts() ) : $loop->the_post(); 
+				$counter++;
+			?>
+				<div role="tabpanel" class="tab-pane <?=($counter == 1) ? 'active' : ''?>" id="post-<?php the_ID(); ?>"><?php the_content();?></div>
+			<?php endwhile; ?>
+		</div>
+	</div>
+
+    <div class="zonewidgettocenter">
+		<?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('gymnastique-artistique-feminine') ) : endif; ?>
+	</div>
+
+</main><!-- #main -->
+	</section><!-- #primary -->
+		
+<?php
+get_footer();
