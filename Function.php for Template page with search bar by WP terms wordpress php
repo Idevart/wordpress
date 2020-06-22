@@ -1,0 +1,182 @@
+
+<?php
+
+function create_articleavendre_cpt() {
+
+    $labels = array(
+        'name' => __( 'Articles a vendre', 'Post Type General Name', 'textdomain' ),
+        'singular_name' => __( 'Article a vendre', 'Post Type Singular Name', 'textdomain' ),
+        'menu_name' => __( 'Articles a vendre', 'textdomain' ),
+        'name_admin_bar' => __( 'Article a vendre', 'textdomain' ),
+        'archives' => __( 'Article a vendre Archives', 'textdomain' ),
+        'attributes' => __( 'Article a vendre Attributes', 'textdomain' ),
+        'parent_item_colon' => __( 'Parent Article a vendre:', 'textdomain' ),
+        'all_items' => __( 'All Articles a vendre', 'textdomain' ),
+        'add_new_item' => __( 'Add New Article a vendre', 'textdomain' ),
+        'add_new' => __( 'Add New', 'textdomain' ),
+        'new_item' => __( 'New Article a vendre', 'textdomain' ),
+        'edit_item' => __( 'Edit Article a vendre', 'textdomain' ),
+        'update_item' => __( 'Update Article a vendre', 'textdomain' ),
+        'view_item' => __( 'View Article a vendre', 'textdomain' ),
+        'view_items' => __( 'View Articles a vendre', 'textdomain' ),
+        'search_items' => __( 'Search Article a vendre', 'textdomain' ),
+        'not_found' => __( 'Not found', 'textdomain' ),
+        'not_found_in_trash' => __( 'Not found in Trash', 'textdomain' ),
+        'featured_image' => __( 'Featured Image', 'textdomain' ),
+        'set_featured_image' => __( 'Set featured image', 'textdomain' ),
+        'remove_featured_image' => __( 'Remove featured image', 'textdomain' ),
+        'use_featured_image' => __( 'Use as featured image', 'textdomain' ),
+        'insert_into_item' => __( 'Insert into Article a vendre', 'textdomain' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this Article a vendre', 'textdomain' ),
+        'items_list' => __( 'Articles a vendre list', 'textdomain' ),
+        'items_list_navigation' => __( 'Articles a vendre list navigation', 'textdomain' ),
+        'filter_items_list' => __( 'Filter Articles a vendre list', 'textdomain' ),
+    );
+    $args = array(
+        'label' => __( 'Article a vendre', 'textdomain' ),
+        'description' => __( '', 'textdomain' ),
+        'labels' => $labels,
+        'menu_icon' => 'dashicons-money',
+        'supports' => array('title', 'editor', 'thumbnail', 'comments', ),
+        'taxonomies' => array('categorievente', ),
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_position' => 5,
+        'show_in_admin_bar' => true,
+        'show_in_nav_menus' => true,
+        'can_export' => true,
+        'has_archive' => true,
+        'hierarchical' => false,
+        'exclude_from_search' => false,
+        'show_in_rest' => true,
+        'publicly_queryable' => true,
+        'capability_type' => 'post',
+    );
+    register_post_type( 'articleavendre', $args );
+
+}
+
+
+register_taxonomy(
+  'produit',
+  'articleavendre',
+  array(
+    'label' => 'Produits',
+    'labels' => array(
+    'name' => 'Produits',
+    'singular_name' => 'Produit',
+    'all_items' => 'Tout les produits',
+    'edit_item' => 'Éditer les produits',
+    'view_item' => 'Voir produit',
+    'update_item' => 'Mettre à jour produit',
+    'add_new_item' => 'Ajouter un produit',
+    'new_item_name' => 'Nouveau produit',
+    'search_items' => 'Rechercher parmi les produits'
+  ),
+  'hierarchical' => false
+  )
+);
+
+register_taxonomy(
+  'matiere',
+  'articleavendre',
+  array(
+    'label' => 'Matiere',
+    'labels' => array(
+    'name' => 'Matiere',
+    'singular_name' => 'Matiere',
+    'all_items' => 'Toutes les matières',
+    'edit_item' => 'Éditer la matière',
+    'view_item' => 'Voir la matière',
+    'update_item' => 'Mettre à jour la matière',
+    'add_new_item' => 'Ajouter une matière',
+    'new_item_name' => 'Nouvelle matière',
+    'search_items' => 'Rechercher parmi les matieres'
+
+  ),
+  'hierarchical' => false
+  )
+);
+
+register_taxonomy(
+  'taille',
+  'articleavendre',
+  array(
+    'label' => 'Tailles',
+    'labels' => array(
+    'name' => 'Tailles',
+    'singular_name' => 'Taille',
+    'all_items' => 'Toutes les tailles',
+    'edit_item' => 'Éditer la taille',
+    'view_item' => 'Voir la taille',
+    'update_item' => 'Mettre à jour la taille',
+    'add_new_item' => 'Ajouter une taille',
+    'new_item_name' => 'Nouvelle taille',
+    'search_items' => 'Rechercher parmi les tailles'
+  ),
+  'hierarchical' => false
+  )
+);
+
+register_taxonomy(
+  'prix',
+  'articleavendre',
+  array(
+    'label' => 'Prix',
+    'labels' => array(
+    'name' => 'Prix',
+    'singular_name' => 'Prix',
+    'all_items' => 'Tous les prix',
+    'edit_item' => 'Éditer le prix',
+    'view_item' => 'Voir le prix',
+    'update_item' => 'Mettre à jour le prix',
+    'add_new_item' => 'Ajouter un prix',
+    'new_item_name' => 'Nouveau prix',
+    'search_items' => 'Rechercher parmi les prix'
+  ),
+  'hierarchical' => false
+  )
+);
+
+register_taxonomy(
+  'categoriesdesarticles',
+  'articleavendre',
+  array(
+    'label' => 'Categorie',
+    'labels' => array(
+    'name' => 'Categories',
+    'singular_name' => 'Categorie',
+    'all_items' => 'Toutes les categories',
+    'edit_item' => 'Éditer la categorie',
+    'view_item' => 'Voir la categorie',
+    'update_item' => 'Mettre à jour la categorie',
+    'add_new_item' => 'Ajouter une categorie',
+    'new_item_name' => 'Nouvelle categorie',
+    'search_items' => 'Rechercher parmi les categories'
+
+  ),
+  'hierarchical' => true
+  )
+);
+
+register_taxonomy_for_object_type( 'produit', 'produits' );
+register_taxonomy_for_object_type( 'matiere', 'produits' );
+register_taxonomy_for_object_type( 'taille', 'produits' );
+register_taxonomy_for_object_type( 'prix', 'produits' );
+register_taxonomy_for_object_type( 'categoriesdeproduits', 'produits' );
+
+add_action( 'init', 'create_articleavendre_cpt', 0 );
+
+/************************ part of function form request **************************/
+
+function buildSelect($tax){
+    $terms = get_terms($tax);
+    $x = '<select name="'. $tax .'">';
+    $x .= '<option value=""> '. ucfirst($tax) .'</option>';
+    foreach ($terms as $term) {
+       $x .= '<option value="' . $term->slug . '">' . $term->name . '</option>';
+    }
+    $x .= '</select>';
+    return $x;
+}
