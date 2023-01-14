@@ -1,0 +1,92 @@
+
+<?php
+
+$pdo = require 'db_settings.php';
+
+if(isset($_POST['submit'])){
+
+    $line1 = $_FILES['filetxt']["tmp_name"];
+    
+    echo '<pre>';
+
+    $count = count($line1);
+
+    function get_string_between($string, $start, $end){
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
+    }
+
+    // Count how many time the word appeard
+
+    function arr_most_common($res) 
+    { 
+        $counted = array_count_values($res); 
+        arsort($counted); 
+        return(key($counted));     
+    }
+
+    // Get random image
+
+    function RandImg($dir, $gl){
+        $images = $gl;
+        $randomImage = $images[array_rand($images)];
+        return $randomImage;
+    }
+
+
+        for ($i=0; $i < $count; $i++) { 
+            $insert1 = file_get_contents($line1[$i]);
+
+            $title = get_string_between($insert1, '/', '/');
+        
+            $exp = explode(' ', $title);
+
+            //$zimg = RandImg('./upload/img/'.$hope);
+
+            // Get longest string true
+            usort($exp, function($a, $b) {
+                return strlen($b) <=> strlen($a);
+            });
+
+            //var_dump($exp);
+            
+            $h = './upload/img/'.$exp[0];
+            $f = glob("{$h}/*.jpg", GLOB_BRACE);
+
+            if($f){
+                $imgr = RandImg($f, $f);
+            }else{
+                if(!file_exists('./upload/img/'.$exp[0]) && !file_exists('hope.jpg')){
+                    mkdir('./upload/img/'.$exp[0], 0777, true);
+                    touch('./upload/img/'.$exp[0].'/hope.jpg');
+                }
+            }
+
+            $f = glob("{$h}/*.jpg", GLOB_BRACE);
+            $imgr = RandImg($f, $f);
+            
+            // Begin
+                try {
+                        $sql = "INSERT INTO fill_wp (title, content,image) VALUES (:title, :insert1, :imgr)"; 
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute(array(":title" => $title, ":insert1" => $insert1, ":imgr" => $imgr));
+                        header("Location: delexists.php?ok=1");
+                    }
+                
+                        catch(PDOException $exception){
+                        die('ERROR: ' . $exception->getMessage());
+                
+                }
+                
+        }
+
+        //End
+        echo '</pre>';
+    
+}
+
+
